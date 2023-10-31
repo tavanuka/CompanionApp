@@ -38,8 +38,6 @@ public partial class MainLayout : IAsyncDisposable
         await BaseLayerLuminance.SetValueFor(_container, _baseLayerLuminance.GetLuminanceValue());
 
         GlobalState.SetLuminance(_baseLayerLuminance);
-
-        // await _jsModule!.InvokeVoidAsync("switchHighlightStyle", baseLayerLuminance == StandardLuminance.DarkMode);
     }
 
 
