@@ -7,6 +7,27 @@
 	<title>CompanionApp</title>
 	<base href="/" />
 	<link href="_content/Microsoft.Fast.Components.FluentUI/css/reboot.css" rel="stylesheet" />
+	<style>
+		:root {
+			--neutral-fill-layer-rest: #ffffff;
+			color: #000000;
+		}
+
+		.loading-progress-text {
+			color: #000000;
+		}
+
+		@media(prefers-color-scheme: dark) {
+			:root {
+				--neutral-fill-layer-rest: #464646;
+				color: #ffffff;
+			}
+
+			.loading-progress-text {
+				color: #ffffff;
+			}
+		}
+	</style>
 	<link href="css/app.css" rel="stylesheet" />
 	<link href="CompanionApp.styles.css" rel="stylesheet" />
 	<link href="manifest.json" rel="manifest" />
