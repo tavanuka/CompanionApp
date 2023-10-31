@@ -1,0 +1,11 @@
+﻿::deep fluent-number-field {
+    width: 100%;
+}
+
+::deep .result-card {
+    padding: 5px 10px;
+}
+
+::deep code {
+    text-wrap: nowrap;
+}

@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+
+@inject BaseLayerLuminance BaseLayerLuminance
+@inject GlobalState GlobalState
+
+<PageTitle>CompanionApp</PageTitle>
+
+<div id="container" @ref="_container">
+    <header>
+        <h2>Companion App</h2>
+        <FluentSwitch @bind-Value="@_darkMode" AfterBindValue="UpdateTheme" title="Switch theme">
+            <span slot="unchecked-message">light</span>
+            <span slot="checked-message">dark</span>
+        </FluentSwitch>
+    </header>
+    <main>
+        <article id="article">
+            <ErrorBoundary>
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent Context="ex">
+                    <p class="error">@ex.Message</p>
+                </ErrorContent>
+            </ErrorBoundary>
+        </article>
+    </main>
+</div>
