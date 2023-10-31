@@ -19,7 +19,7 @@
             <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
         </FluentNumberField>
         <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom">
-            <FluentNumberField TValue="double" @bind-Value="@_marginLeft" AfterBindValue="EvaluateMarginsLinked"
+            <FluentNumberField TValue="double" @bind-Value:get="@_marginLeft" AfterBindValue="EvaluateMarginsLinked"
                                Immediate="true"
                                HideStep="true">
                 Left margin
@@ -28,7 +28,7 @@
             <FluentButton Appearance="Appearance.Lightweight" OnClick="@(() => _linkMargins = !_linkMargins)">
                 <FluentIcon Value="@GetLinkButtonIcon()"></FluentIcon>
             </FluentButton>
-            <FluentNumberField TValue="@double" @bind-Value="@_marginRight" AfterBindValue="EvaluateMarginsLinked"
+            <FluentNumberField TValue="@double" @bind-Value:get="@_marginRight" AfterBindValue="EvaluateMarginsLinked"
                                Immediate="true"
                                HideStep="true">
                 Right margin
