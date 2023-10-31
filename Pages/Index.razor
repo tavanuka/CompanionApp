@@ -58,13 +58,11 @@
 </div>
 
 @code {
+    private FluentCard _fluentCard = default!;
     private bool _linkMargins = true;
-    FluentCard _fluentCard = default!;
-
     private double _marginLeft;
     private double _marginRight;
-
-
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -92,7 +90,5 @@
         }
         StateHasChanged();
     }
-
-
 
 }
