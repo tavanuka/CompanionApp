@@ -1,68 +1,78 @@
 ﻿@page "/"
 @using System.Globalization
+@using CompanionApp.Models
 
-@inject DimensionsStore DimensionsStore
 @inject NeutralBaseColor NeutralBaseColor
+@inject IDimensionsService DimensionsService
 
 <PageTitle>Margin Calculator</PageTitle>
 <div>
-    <FluentStack Orientation="Orientation.Vertical">
-        <FluentNumberField TValue="int" @bind-Value="@DimensionsStore.PointsCount"
-                           Immediate="true"
-                           HideStep="true">
-            Number of points
-        </FluentNumberField>
-        <FluentNumberField TValue="double" @bind-Value="@DimensionsStore.Dimension"
-                           Immediate="true"
-                           HideStep="true">
-            Dimension
-            <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
-        </FluentNumberField>
-        <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom">
-            <FluentNumberField TValue="double" @bind-Value:get="@_marginLeft" AfterBindValue="EvaluateMarginsLinked"
-                               Immediate="true"
+    <EditForm Model="@_calculation" OnValidSubmit="@OnValidSubmit">
+        <FluentValidationValidator/>
+        <FluentValidationSummary/>
+        <FluentStack Orientation="Orientation.Vertical">
+            <FluentNumberField @bind-Value="_calculation.NumberOfPoint"
                                HideStep="true">
-                Left margin
+                Number of points
+            </FluentNumberField>
+            <FluentNumberField @bind-Value="_calculation.Dimension"
+                               HideStep="true">
+                Dimension
                 <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
             </FluentNumberField>
-            <FluentButton Appearance="Appearance.Lightweight" OnClick="@(() => _linkMargins = !_linkMargins)">
-                <FluentIcon Value="@GetLinkButtonIcon()"></FluentIcon>
-            </FluentButton>
-            <FluentNumberField TValue="@double" @bind-Value:get="@_marginRight" AfterBindValue="EvaluateMarginsLinked"
-                               Immediate="true"
-                               HideStep="true">
-                Right margin
-                <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
-            </FluentNumberField>
+            <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom">
+                <FluentNumberField @bind-Value="@_calculation.MarginLeft" @bind-Value:after="EvaluateMarginsLinked"
+                                   Immediate="true"
+                                   HideStep="true">
+                    Left margin
+                    <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
+                </FluentNumberField>
+                <FluentButton Appearance="Appearance.Lightweight" OnClick="@(() => _linkMargins = !_linkMargins)">
+                    <FluentIcon Value="@GetLinkButtonIcon()"></FluentIcon>
+                </FluentButton>
+                <FluentNumberField @bind-Value="@_calculation.MarginRight"
+                                   HideStep="true"
+                                   Immediate="true"
+                                   Readonly="_linkMargins">
+                    Right margin
+                    <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
+                </FluentNumberField>
 
+            </FluentStack>
+            <FluentButton Type="ButtonType.Submit">Calculate</FluentButton>
+            <FluentDivider Style="width: 100%;" Role="DividerRole.Separator"/>
+            <FluentCard @ref="_fluentCard" Class="result-card">
+                @if (_resultVisible)
+                {
+                    <h2>Result: @_result.ToString(CultureInfo.CurrentCulture) cm</h2>
+                }
+                <p>
+                    The calculation applies the following formula: <code>(dimension - (ml + mr)) / (points - 1)</code>
+                    <br/>
+                    Which in our case produces:
+                    <code>
+                        (@_calculation.Dimension.ToString(CultureInfo.CurrentCulture) - (@_calculation.MarginLeft.ToString(CultureInfo.CurrentCulture) cm + @_calculation.MarginRight.ToString(CultureInfo.CurrentCulture) cm)) / (@_calculation.NumberOfPoint.ToString() - 1)
+                    </code>
+                </p>
+                <p>It calculates the gap between points needed for equally distributing drilling points. It also considers desired margins in return.</p>
+
+                <p>
+                    <i>If the number of points equal to one, the calculation will put it right in the middle with margins put in consideration:</i>
+                    <code>(dimension - (ml + mr)) / 2</code>
+                </p>
+            </FluentCard>
         </FluentStack>
-        <FluentDivider Style="width: 100%;" Role="DividerRole.Separator"/>
-        <FluentCard @ref="_fluentCard" Class="result-card">
-            <h2>Result: @DimensionsStore.Gap.ToString(CultureInfo.CurrentCulture) cm</h2>
-            <p>
-                The calculation applies the following formula: <code>(dimension - (ml + mr)) / (points - 1)</code>
-                <br/>
-                Which in our case produces:
-                <code>
-                    (@DimensionsStore.Dimension.ToString(CultureInfo.CurrentCulture) - (@DimensionsStore.MarginLeft.ToString(CultureInfo.CurrentCulture) cm + @DimensionsStore.MarginRight.ToString(CultureInfo.CurrentCulture) cm)) / (@DimensionsStore.PointsCount.ToString() - 1)
-                </code>
-            </p>
-            <p>It calculates the gap between points needed for equally distributing drilling points. It also considers desired margins in return.</p>
-
-            <p>
-                <i>If the number of points equal to one, the calculation will put it right in the middle with margins put in consideration:</i>
-                <code>(dimension - (ml + mr)) / 2</code>
-            </p>
-        </FluentCard>
-    </FluentStack>
+    </EditForm>
 </div>
 
 @code {
     private FluentCard _fluentCard = default!;
     private bool _linkMargins = true;
-    private double _marginLeft;
-    private double _marginRight;
-    
+    private double _result;
+    private bool _resultVisible;
+
+    private Calculation _calculation = new();
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -75,18 +85,17 @@
         ? new Icons.Regular.Size24.Link()
         : new Icons.Regular.Size24.LinkDismiss();
 
+    private void OnValidSubmit()
+    {
+        _result = DimensionsService.CalculateGap(_calculation.Dimension, _calculation.MarginLeft, _calculation.MarginRight, _calculation.NumberOfPoint);
+        _resultVisible = true;
+    }
+
     private void EvaluateMarginsLinked()
     {
         if (_linkMargins)
         {
-            DimensionsStore.MarginLeft = _marginLeft;
-            _marginRight = _marginLeft;
-            DimensionsStore.MarginRight = _marginLeft;
-        }
-        else
-        {
-            DimensionsStore.MarginLeft = _marginLeft;
-            DimensionsStore.MarginRight = _marginRight;
+            _calculation.MarginRight = _calculation.MarginLeft;
         }
         StateHasChanged();
     }
