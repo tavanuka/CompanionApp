@@ -10,9 +10,8 @@ public partial class MainLayout : IAsyncDisposable
 
     private ElementReference _container;
     private IJSObjectReference? _jsModule;
+    
     private bool _darkMode;
-
-
     private StandardLuminance _baseLayerLuminance = StandardLuminance.LightMode;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -23,24 +22,19 @@ public partial class MainLayout : IAsyncDisposable
             GlobalState.SetContainer(_container);
 
             _darkMode = await _jsModule!.InvokeAsync<bool>("isDarkMode");
-            if (_darkMode)
-            {
-                UpdateTheme();
-                StateHasChanged();
-            }
+            _baseLayerLuminance = _darkMode ? StandardLuminance.DarkMode : StandardLuminance.LightMode;
+            GlobalState.SetLuminance(_baseLayerLuminance);
+            StateHasChanged();
         }
     }
 
     public async void UpdateTheme()
     {
         _baseLayerLuminance = _darkMode ? StandardLuminance.DarkMode : StandardLuminance.LightMode;
-
-        await BaseLayerLuminance.SetValueFor(_container, _baseLayerLuminance.GetLuminanceValue());
-
+        await BaseLayerLuminance.WithDefault(_baseLayerLuminance.GetLuminanceValue());
         GlobalState.SetLuminance(_baseLayerLuminance);
     }
-
-
+    
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
         try
