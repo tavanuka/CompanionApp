@@ -5,11 +5,12 @@
 @inject NeutralBaseColor NeutralBaseColor
 @inject IDimensionsService DimensionsService
 
-<PageTitle>Margin Calculator</PageTitle>
+<PageTitle>Calculator</PageTitle>
 <div>
     <EditForm Model="@_calculation" OnValidSubmit="@OnValidSubmit">
         <FluentValidationValidator/>
         <FluentValidationSummary/>
+
         <FluentStack Orientation="Orientation.Vertical">
             <FluentNumberField @bind-Value="_calculation.NumberOfPoint"
                                HideStep="true">
@@ -18,16 +19,16 @@
             <FluentNumberField @bind-Value="_calculation.Dimension"
                                HideStep="true">
                 Dimension
-                <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
+                <FluentLabel slot="end" Typo="Typography.Body">mm</FluentLabel>
             </FluentNumberField>
             <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom">
-                <FluentNumberField @bind-Value="@_calculation.MarginLeft" @bind-Value:after="EvaluateMarginsLinked"
+                <FluentNumberField @bind-Value="@_calculation.MarginLeft" @bind-Value:after="@EvaluateMarginsLinked"
                                    Immediate="true"
                                    HideStep="true">
                     Left margin
-                    <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
+                    <FluentLabel slot="end" Typo="Typography.Body">mm</FluentLabel>
                 </FluentNumberField>
-                <FluentButton Appearance="Appearance.Lightweight" OnClick="@(() => _linkMargins = !_linkMargins)">
+                <FluentButton Appearance="Appearance.Lightweight" OnClick="@(() => _linkMargins = !_linkMargins)" Title="Link margins">
                     <FluentIcon Value="@GetLinkButtonIcon()"></FluentIcon>
                 </FluentButton>
                 <FluentNumberField @bind-Value="@_calculation.MarginRight"
@@ -35,11 +36,10 @@
                                    Immediate="true"
                                    Readonly="_linkMargins">
                     Right margin
-                    <FluentLabel slot="end" Typo="Typography.Body">cm</FluentLabel>
+                    <FluentLabel slot="end" Typo="Typography.Body">mm</FluentLabel>
                 </FluentNumberField>
-
             </FluentStack>
-            <FluentButton Type="ButtonType.Submit">Calculate</FluentButton>
+            <FluentButton Appearance="Appearance.Accent" Type="ButtonType.Submit">Calculate</FluentButton>
             <FluentDivider Style="width: 100%;" Role="DividerRole.Separator"/>
             <FluentCard @ref="_fluentCard" Class="result-card">
                 @if (_resultVisible)
@@ -51,11 +51,10 @@
                     <br/>
                     Which in our case produces:
                     <code>
-                        (@_calculation.Dimension.ToString(CultureInfo.CurrentCulture) - (@_calculation.MarginLeft.ToString(CultureInfo.CurrentCulture) cm + @_calculation.MarginRight.ToString(CultureInfo.CurrentCulture) cm)) / (@_calculation.NumberOfPoint.ToString() - 1)
+                        (@_calculation.Dimension.ToString(CultureInfo.CurrentCulture) mm - (@_calculation.MarginLeft.ToString(CultureInfo.CurrentCulture) mm + @_calculation.MarginRight.ToString(CultureInfo.CurrentCulture) mm)) / (@_calculation.NumberOfPoint.ToString() - 1)
                     </code>
                 </p>
                 <p>It calculates the gap between points needed for equally distributing drilling points. It also considers desired margins in return.</p>
-
                 <p>
                     <i>If the number of points equal to one, the calculation will put it right in the middle with margins put in consideration:</i>
                     <code>(dimension - (ml + mr)) / 2</code>
@@ -68,7 +67,7 @@
 @code {
     private FluentCard _fluentCard = default!;
     private bool _linkMargins = true;
-    private double _result;
+    private float _result;
     private bool _resultVisible;
 
     private Calculation _calculation = new();
@@ -77,7 +76,7 @@
     {
         if (firstRender)
         {
-            await NeutralBaseColor.SetValueFor(_fluentCard.Element, new Swatch(202, 186, 140));
+            await NeutralBaseColor.SetValueFor(_fluentCard.Element, "#caba8c".ToSwatch());
         }
     }
 
@@ -87,7 +86,7 @@
 
     private void OnValidSubmit()
     {
-        _result = DimensionsService.CalculateGap(_calculation.Dimension, _calculation.MarginLeft, _calculation.MarginRight, _calculation.NumberOfPoint);
+        _result = DimensionsService.CalculateGapInMillimeters(_calculation.Dimension, _calculation.MarginLeft, _calculation.MarginRight, _calculation.NumberOfPoint).ShiftDecimalPoint(1);
         _resultVisible = true;
     }
 
