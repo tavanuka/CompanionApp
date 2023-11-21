@@ -7,22 +7,22 @@
 
 <PageTitle>Calculator</PageTitle>
 <div>
-    <EditForm Model="@_calculation" OnValidSubmit="@OnValidSubmit">
+    <EditForm Model="@Calculation" OnValidSubmit="@OnValidSubmit">
         <FluentValidationValidator/>
         <FluentValidationSummary/>
 
         <FluentStack Orientation="Orientation.Vertical">
-            <FluentNumberField @bind-Value="_calculation.NumberOfPoint"
+            <FluentNumberField @bind-Value="Calculation.NumberOfPoint"
                                HideStep="true">
                 Number of points
             </FluentNumberField>
-            <FluentNumberField @bind-Value="_calculation.Dimension"
+            <FluentNumberField @bind-Value="Calculation.Dimension"
                                HideStep="true">
                 Dimension
                 <FluentLabel slot="end" Typo="Typography.Body">mm</FluentLabel>
             </FluentNumberField>
             <FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom">
-                <FluentNumberField @bind-Value="@_calculation.MarginLeft" @bind-Value:after="@EvaluateMarginsLinked"
+                <FluentNumberField @bind-Value="@Calculation.MarginLeft" @bind-Value:after="@EvaluateMarginsLinked"
                                    Immediate="true"
                                    HideStep="true">
                     Left margin
@@ -31,10 +31,10 @@
                 <FluentButton Appearance="Appearance.Lightweight" OnClick="@(() => _linkMargins = !_linkMargins)" Title="Link margins">
                     <FluentIcon Value="@GetLinkButtonIcon()"></FluentIcon>
                 </FluentButton>
-                <FluentNumberField @bind-Value="@_calculation.MarginRight"
+                <FluentNumberField @bind-Value="@Calculation.MarginRight"
                                    HideStep="true"
                                    Immediate="true"
-                                   Readonly="_linkMargins">
+                                   Readonly="@_linkMargins">
                     Right margin
                     <FluentLabel slot="end" Typo="Typography.Body">mm</FluentLabel>
                 </FluentNumberField>
@@ -51,7 +51,7 @@
                     <br/>
                     Which in our case produces:
                     <code>
-                        (@_calculation.Dimension.ToString(CultureInfo.CurrentCulture) mm - (@_calculation.MarginLeft.ToString(CultureInfo.CurrentCulture) mm + @_calculation.MarginRight.ToString(CultureInfo.CurrentCulture) mm)) / (@_calculation.NumberOfPoint.ToString() - 1)
+                        (@Calculation.Dimension.ToString(CultureInfo.CurrentCulture) mm - (@Calculation.MarginLeft.ToString(CultureInfo.CurrentCulture) mm + @Calculation.MarginRight.ToString(CultureInfo.CurrentCulture) mm)) / (@Calculation.NumberOfPoint.ToString() - 1)
                     </code>
                 </p>
                 <p>It calculates the gap between points needed for equally distributing drilling points. It also considers desired margins in return.</p>
@@ -62,6 +62,7 @@
             </FluentCard>
         </FluentStack>
     </EditForm>
+            <FluentNumberField TValue="float" @bind-Value="_test" Step="0.1" ></FluentNumberField>
 </div>
 
 @code {
@@ -70,7 +71,9 @@
     private float _result;
     private bool _resultVisible;
 
-    private Calculation _calculation = new();
+    float _test;
+
+    public Calculation Calculation { get; set; } = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -86,7 +89,7 @@
 
     private void OnValidSubmit()
     {
-        _result = DimensionsService.CalculateGapInMillimeters(_calculation.Dimension, _calculation.MarginLeft, _calculation.MarginRight, _calculation.NumberOfPoint).ShiftDecimalPoint(1);
+        _result = DimensionsService.CalculateGapInMillimeters(Calculation.Dimension, Calculation.MarginLeft, Calculation.MarginRight, Calculation.NumberOfPoint).ShiftDecimalPoint(1);
         _resultVisible = true;
     }
 
@@ -94,7 +97,7 @@
     {
         if (_linkMargins)
         {
-            _calculation.MarginRight = _calculation.MarginLeft;
+            Calculation.MarginRight = Calculation.MarginLeft;
         }
         StateHasChanged();
     }
