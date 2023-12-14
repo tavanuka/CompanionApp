@@ -1,7 +1,7 @@
-using CompanionApp.Enums;
-using CompanionApp.Extensions;
+using CompanionApp.Client.Enums;
+using CompanionApp.Client.Extensions;
 
-namespace CompanionApp.Components;
+namespace CompanionApp.Client.Components;
 
 public partial class CalculationSettings
 {

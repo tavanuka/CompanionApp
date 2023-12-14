@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "CompanionApp": {
+    "CompanionApp.Client": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

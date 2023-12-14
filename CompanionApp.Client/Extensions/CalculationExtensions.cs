@@ -1,4 +1,4 @@
-namespace CompanionApp.Extensions;
+namespace CompanionApp.Client.Extensions;
 
 public static class CalculationExtensions
 {

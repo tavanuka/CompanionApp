@@ -1,4 +1,4 @@
-namespace CompanionApp.States;
+namespace CompanionApp.Client.States;
 
 public class StateObject
 {

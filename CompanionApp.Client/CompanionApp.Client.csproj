@@ -4,6 +4,10 @@
         <AssemblyVersion>3.0.23249.3</AssemblyVersion>
         <FileVersion>3.0.23249.3</FileVersion>
         <InformationalVersion>3.0.23249.3</InformationalVersion>
+        <AssemblyName>CompanionApp</AssemblyName>
+        <RootNamespace>CompanionApp.Client</RootNamespace>
+        <Authors>Mark Novak</Authors>
+        <Company>M8IT</Company>
     </PropertyGroup>
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>

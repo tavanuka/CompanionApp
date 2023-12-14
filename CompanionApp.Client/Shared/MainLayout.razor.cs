@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Fast.Components.FluentUI;
 using Microsoft.JSInterop;
 
-namespace CompanionApp.Shared;
+namespace CompanionApp.Client.Shared;
 
 public partial class MainLayout : IAsyncDisposable 
 {

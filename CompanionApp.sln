@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanionApp", "CompanionApp.Client\CompanionApp.csproj", "{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{463DC376-CFE5-4D50-94E0-B7EB30028C61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanionApp.Client", "CompanionApp.Client\CompanionApp.Client.csproj", "{B25E09FB-CB5D-45A9-B536-83A53D234D0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B25E09FB-CB5D-45A9-B536-83A53D234D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B25E09FB-CB5D-45A9-B536-83A53D234D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B25E09FB-CB5D-45A9-B536-83A53D234D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B25E09FB-CB5D-45A9-B536-83A53D234D0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DEEF408B-C23E-498F-8FCD-1F7CEA79665A}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B25E09FB-CB5D-45A9-B536-83A53D234D0D} = {463DC376-CFE5-4D50-94E0-B7EB30028C61}
 	EndGlobalSection
 EndGlobal

@@ -1,10 +1,10 @@
-using CompanionApp.Components;
-using CompanionApp.Services;
-using CompanionApp.States;
+using CompanionApp.Client.Components;
+using CompanionApp.Client.Services;
+using CompanionApp.Client.States;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Fast.Components.FluentUI;
 
-namespace CompanionApp.Pages;
+namespace CompanionApp.Client.Pages;
 
 public partial class Calculator
 {

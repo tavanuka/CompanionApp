@@ -1,6 +1,6 @@
-using CompanionApp.Models;
+using CompanionApp.Client.Models;
 
-namespace CompanionApp.Services;
+namespace CompanionApp.Client.Services;
 
 public interface IHoleCalculationService
 {

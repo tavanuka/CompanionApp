@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace CompanionApp.Enums;
+namespace CompanionApp.Client.Enums;
 
 public enum MeasurementType
 {

@@ -1,6 +1,6 @@
-using CompanionApp.Enums;
+using CompanionApp.Client.Enums;
 
-namespace CompanionApp.States;
+namespace CompanionApp.Client.States;
 
 public class CalculationSettingsStateContainer : StateObject
 {

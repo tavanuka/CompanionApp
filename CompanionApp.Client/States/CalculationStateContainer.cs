@@ -1,6 +1,6 @@
-using CompanionApp.Models;
+using CompanionApp.Client.Models;
 
-namespace CompanionApp.States;
+namespace CompanionApp.Client.States;
 
 public class CalculationStateContainer : StateObject
 {

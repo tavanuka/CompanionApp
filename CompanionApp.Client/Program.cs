@@ -1,6 +1,6 @@
-using CompanionApp;
-using CompanionApp.Services;
-using CompanionApp.States;
+using CompanionApp.Client;
+using CompanionApp.Client.Services;
+using CompanionApp.Client.States;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Fast.Components.FluentUI;

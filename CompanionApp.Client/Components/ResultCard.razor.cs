@@ -1,9 +1,9 @@
-using CompanionApp.States;
+using CompanionApp.Client.States;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Fast.Components.FluentUI;
 using Microsoft.Fast.Components.FluentUI.DesignTokens;
 
-namespace CompanionApp.Components;
+namespace CompanionApp.Client.Components;
 
 public partial class ResultCard
 {
