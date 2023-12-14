@@ -7,7 +7,7 @@ namespace CompanionApp.Components;
 
 public partial class ResultCard
 {
-    private FluentCard _fluentCard = default!;
+    private FluentCard fluentCard = default!;
 
     [Inject] public NeutralBaseColor NeutralBaseColor { get; set; } = default!;
     [Inject] public CalculationSettingsStateContainer Settings { get; set; } = default!;
@@ -29,7 +29,7 @@ public partial class ResultCard
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender) await NeutralBaseColor.SetValueFor(_fluentCard.Element, "#caba8c".ToSwatch());
+        if (firstRender) await NeutralBaseColor.SetValueFor(fluentCard.Element, "#caba8c".ToSwatch());
     }
 
     private void ShowTable()

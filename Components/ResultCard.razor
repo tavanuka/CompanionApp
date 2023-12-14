@@ -1,7 +1,7 @@
 @implements IDisposable
 
 <div class="full-width">
-    <FluentCard @ref="_fluentCard" Class="result-card" Width="auto" Height="auto">
+    <FluentCard @ref="fluentCard" Class="result-card" Width="auto" Height="auto">
         <div style="display: flex; flex-direction: column; flex-grow: 1">
             @switch (Settings.PreciseMeasurement)
             {

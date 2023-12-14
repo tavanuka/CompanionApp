@@ -5,10 +5,10 @@
 
 <PageTitle>CompanionApp</PageTitle>
 
-<div id="container" @ref="_container">
+<div id="container" @ref="container">
     <header>
         <h2>Companion App</h2>
-        <FluentSwitch @bind-Value="@_darkMode" AfterBindValue="UpdateTheme" title="Switch theme">
+        <FluentSwitch @bind-Value="@darkMode" AfterBindValue="UpdateTheme" title="Switch theme">
             <span slot="unchecked-message">light</span>
             <span slot="checked-message">dark</span>
         </FluentSwitch>

@@ -4,21 +4,21 @@ using Microsoft.JSInterop;
 
 namespace CompanionApp.Shared;
 
-public partial class MainLayout : IAsyncDisposable
+public partial class MainLayout : IAsyncDisposable 
 {
-    private StandardLuminance _baseLayerLuminance = StandardLuminance.LightMode;
+    private StandardLuminance baseLayerLuminance = StandardLuminance.LightMode;
 
-    private ElementReference _container;
+    private ElementReference container;
 
-    private bool _darkMode;
-    private IJSObjectReference? _jsModule;
+    private bool darkMode;
+    private IJSObjectReference? jsModule;
     [Inject] private IJSRuntime JsRuntime { get; set; } = default!;
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
         try
         {
-            if (_jsModule is not null) await _jsModule.DisposeAsync();
+            if (jsModule is not null) await jsModule.DisposeAsync();
         }
         catch (JSDisconnectedException)
         {
@@ -33,20 +33,20 @@ public partial class MainLayout : IAsyncDisposable
     {
         if (firstRender)
         {
-            _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Shared/MainLayout.razor.js");
-            GlobalState.SetContainer(_container);
+            jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Shared/MainLayout.razor.js");
+            GlobalState.SetContainer(container);
 
-            _darkMode = await _jsModule!.InvokeAsync<bool>("isDarkMode");
-            _baseLayerLuminance = _darkMode ? StandardLuminance.DarkMode : StandardLuminance.LightMode;
-            GlobalState.SetLuminance(_baseLayerLuminance);
+            darkMode = await jsModule!.InvokeAsync<bool>("isDarkMode");
+            baseLayerLuminance = darkMode ? StandardLuminance.DarkMode : StandardLuminance.LightMode;
+            GlobalState.SetLuminance(baseLayerLuminance);
             StateHasChanged();
         }
     }
 
     public async void UpdateTheme()
     {
-        _baseLayerLuminance = _darkMode ? StandardLuminance.DarkMode : StandardLuminance.LightMode;
-        await BaseLayerLuminance.WithDefault(_baseLayerLuminance.GetLuminanceValue());
-        GlobalState.SetLuminance(_baseLayerLuminance);
+        baseLayerLuminance = darkMode ? StandardLuminance.DarkMode : StandardLuminance.LightMode;
+        await BaseLayerLuminance.WithDefault(baseLayerLuminance.GetLuminanceValue());
+        GlobalState.SetLuminance(baseLayerLuminance);
     }
 }
