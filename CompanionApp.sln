@@ -1,6 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanionApp", "CompanionApp.csproj", "{BB7871BD-F173-4FEC-ABD6-D7FBC389B3AE}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanionApp", "CompanionApp.Client\CompanionApp.csproj", "{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BB7871BD-F173-4FEC-ABD6-D7FBC389B3AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB7871BD-F173-4FEC-ABD6-D7FBC389B3AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB7871BD-F173-4FEC-ABD6-D7FBC389B3AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB7871BD-F173-4FEC-ABD6-D7FBC389B3AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F6B96CA-7B33-4E7A-9861-0B1527A3845D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DEEF408B-C23E-498F-8FCD-1F7CEA79665A}
 	EndGlobalSection
 EndGlobal
