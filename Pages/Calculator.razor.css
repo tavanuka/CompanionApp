@@ -2,10 +2,12 @@
     width: 100%;
 }
 
-::deep .result-card {
-    padding: 5px 10px;
-}
-
 ::deep code {
     text-wrap: nowrap;
+}
+
+::deep .buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }

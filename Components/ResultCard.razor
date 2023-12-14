@@ -1,0 +1,23 @@
+@implements IDisposable
+
+<div class="full-width">
+    <FluentCard @ref="_fluentCard" Class="result-card" Width="auto" Height="auto">
+        <div style="display: flex; flex-direction: column; flex-grow: 1">
+            @switch (Settings.PreciseMeasurement)
+            {
+                case false:
+                    <h3>Result: @($"{State.RoundedDistanceBetweenHoles} {Settings.MeasurementType.GetDescription()}")</h3>
+                    <h5>Starting offset: @($"{State.Offset} {Settings.MeasurementType.GetDescription()}")</h5>
+                    break;
+                case true:
+                    <h2>Result: @($"{State.DistanceBetweenHoles:0.##} {Settings.MeasurementType.GetDescription()}")</h2>
+                    break;
+            }
+        </div>
+        <FluentDivider Orientation="Orientation.Vertical" Style="height: auto"/>
+        <div style="display: flex; align-items: center">
+            <FluentButton Style="height: 100%; width: 100%" Appearance="Appearance.Stealth" IconEnd="@(new Icons.Regular.Size32.ChevronRight())" OnClick="@ShowTable" />
+        </div>
+    </FluentCard>
+    
+</div>

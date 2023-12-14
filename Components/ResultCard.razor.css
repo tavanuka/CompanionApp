@@ -1,0 +1,6 @@
+::deep .result-card {
+    padding: 5px 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}

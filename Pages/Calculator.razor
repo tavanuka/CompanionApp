@@ -1,0 +1,36 @@
+﻿@page "/"
+
+@implements IDisposable
+
+<PageTitle>Calculator</PageTitle>
+<div>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentNumberField TValue="double" @bind-Value:get="State.Dimension" @bind-Value:set="State.SetDimension"
+                           Immediate="true"
+                           HideStep="true">
+            Dimension
+            <FluentLabel slot="end" Typo="Typography.Body">@Settings.MeasurementType.GetDescription()</FluentLabel>
+        </FluentNumberField>
+        <MarginInput/>
+        <div class="full-width">
+            <FluentSlider TValue="int" @bind-Value:get="State.NumberOfHoles" @bind-Value:set="State.SetNumberOfHoles"
+                          Min="1" Max="50" Step="1"
+                          Label=@($"Number of holes: {State.NumberOfHoles}")>
+                <FluentSliderLabel Position="1">1</FluentSliderLabel>
+                <FluentSliderLabel Position="25">25</FluentSliderLabel>
+                <FluentSliderLabel Position="50">50</FluentSliderLabel>
+            </FluentSlider>
+        </div>
+        <div class="buttons">
+            <FluentButton Appearance="Appearance.Accent" OnClick="@Calculate">Calculate</FluentButton>
+            <FluentButton OnClick="@(() => OpenCalculationSettings())" Title="Site settings">
+                <FluentIcon Icon="Icons.Regular.Size20.Settings" Color="Color.Neutral" Title="Calculation settings"/>
+            </FluentButton>
+        </div>
+        @if (State.ShowResultCard)
+        {
+            <FluentDivider Class="full-width" Role="DividerRole.Separator"/>
+            <ResultCard/>
+        }
+    </FluentStack>
+</div>

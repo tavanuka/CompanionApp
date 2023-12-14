@@ -1,0 +1,66 @@
+@implements IDisposable
+
+@inject CalculationSettingsStateContainer Settings
+@inject CalculationStateContainer State
+
+<FluentStack Orientation="Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Bottom">
+    @switch (Settings.MarginSlider)
+    {
+        case true:
+            <div class="full-width">
+                <FluentSlider TValue="int" @bind-Value:get="State.Margin" @bind-Value:set="@State.SetMargin"
+                              Min="0" Max="50" Step="1"
+                              Label=@($"Margin: {State.Margin} {Settings.MeasurementType.GetDescription()}")>
+                    <FluentSliderLabel Position="0">0</FluentSliderLabel>
+                    <FluentSliderLabel Position="25">25</FluentSliderLabel>
+                    <FluentSliderLabel Position="50">50</FluentSliderLabel>
+                </FluentSlider>
+            </div>
+            break;
+        case false when !Settings.PreciseMargin:
+            <FluentNumberField TValue="int" @bind-Value:get="State.Margin" @bind-Value:set="@State.SetMargin"
+                               Immediate="true"
+                               HideStep="true">
+                Margin
+                <FluentLabel slot="end" Typo="Typography.Body">@Settings.MeasurementType.GetDescription()</FluentLabel>
+            </FluentNumberField>
+            break;
+        case false when Settings.PreciseMargin:
+            <FluentNumberField TValue="int" @bind-Value:get="State.MarginLeft" @bind-Value:set="@State.SetMarginLeft"
+                               Immediate="true"
+                               HideStep="true">
+                Left margin
+                <FluentLabel slot="end" Typo="Typography.Body">@Settings.MeasurementType.GetDescription()</FluentLabel>
+            </FluentNumberField>
+            <FluentButton Appearance="Appearance.Lightweight" OnClick="@(() => State.SetLinkMargins(!State.LinkMargins))" Title="Link margins">
+                <FluentIcon Value="@LinkButtonIcon"></FluentIcon>
+            </FluentButton>
+            <FluentNumberField TValue="int" @bind-Value:get="State.MarginRight" @bind-Value:set="@State.SetMarginRight"
+                               HideStep="true"
+                               Immediate="true"
+                               Readonly="@State.LinkMargins">
+                Right margin
+                <FluentLabel slot="end" Typo="Typography.Body">@Settings.MeasurementType.GetDescription()</FluentLabel>
+            </FluentNumberField>
+            break;
+    }
+</FluentStack>
+
+@code {
+
+    private Icon LinkButtonIcon => State.LinkMargins
+        ? new Icons.Regular.Size24.Link()
+        : new Icons.Regular.Size24.LinkDismiss();
+
+    protected override void OnInitialized()
+    {
+        Settings.OnStateChange += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        Settings.OnStateChange -= StateHasChanged;
+    }
+
+}

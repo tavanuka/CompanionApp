@@ -1,0 +1,53 @@
+@page "/result"
+
+@implements IDisposable
+
+@inject CalculationStateContainer State
+@inject CalculationSettingsStateContainer Settings 
+@inject NavigationManager Navigation
+
+<PageTitle>Result</PageTitle>
+<div>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentButton Appearance="Appearance.Accent" OnClick="@(() => Navigation.NavigateTo("/"))">Go back</FluentButton>
+        @if (State.Holes is not null)
+        {
+            <FluentCard Width="100%" Height="auto">
+                <FluentDataGrid Items="@(State.Holes)">
+                    <PropertyColumn Property="@(h => h.Index)" Title="Hole"/>
+                    @switch (Settings.PreciseMeasurement)
+                    {
+                        case true:
+                            <TemplateColumn Title="Distance">
+                                @context.Distance.ToString(NumFormat) @Settings.MeasurementType.GetDescription()
+                            </TemplateColumn>
+                            break;
+                        case false:
+                            <TemplateColumn Title="Rounded distance">
+                                @context.RoundedDistance @Settings.MeasurementType.GetDescription()
+                            </TemplateColumn>
+                            break;
+                    }
+                </FluentDataGrid>
+            </FluentCard>
+        }
+    </FluentStack>
+</div>
+
+@code {
+    private const string NumFormat = "0.##";
+
+    protected override void OnInitialized()
+    {
+        Settings.OnStateChange += StateHasChanged;
+        State.OnStateChange += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        Settings.OnStateChange -= StateHasChanged;
+        State.OnStateChange -= StateHasChanged;
+    }
+
+}
