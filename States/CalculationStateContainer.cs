@@ -1,4 +1,3 @@
-using CompanionApp.Enums;
 using CompanionApp.Models;
 
 namespace CompanionApp.States;
