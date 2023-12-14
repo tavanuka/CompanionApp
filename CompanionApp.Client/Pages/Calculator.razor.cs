@@ -12,6 +12,7 @@ public partial class Calculator
     [Inject] public CalculationSettingsStateContainer Settings { get; set; } = default!;
     [Inject] public CalculationStateContainer State { get; set; } = default!;
     [Inject] public IHoleCalculationService Service { get; set; } = default!;
+    [Inject] public IToastService ToastService { get; set; } = default!;
 
     public void Dispose()
     {
@@ -26,6 +27,12 @@ public partial class Calculator
 
     private void Calculate()
     {
+        if (State.Dimension <= 0D)
+        {
+            ToastService.ShowWarning("Please enter a length greater than 0.");
+            return;
+        }
+        
         var offset = Service.CalculateOffset(State.Dimension,
             State.NumberOfHoles,
             Settings.PreciseMargin ? State.MarginLeft : State.Margin,
