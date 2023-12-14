@@ -1,0 +1,39 @@
+@implements IDialogContentComponent
+
+@inject CalculationSettingsStateContainer Settings
+@inject CalculationStateContainer State
+
+<div>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentSelect TOption="MeasurementType" Appearance="Appearance.Outline"
+                      Items="@(Enum.GetValues<MeasurementType>())"
+                      OptionValue="@(m => m.ToAttributeValue())"
+                      OptionSelected="@(m => m == Settings.MeasurementType)"
+                      @bind-SelectedOption:get="Settings.MeasurementType"
+                      @bind-SelectedOption:set="@(value => SetMeasurementType(value))"
+                      Label="Measurement Type">
+        </FluentSelect>
+        <FluentRadioGroup TValue="bool"
+                          Label="Precise measurements"
+                          @bind-Value:get="Settings.PreciseMeasurement"
+                          @bind-Value:set="@(value => Settings.SetPreciseMeasurement(value))">
+            <FluentRadio Value="@(true)">Yes</FluentRadio>
+            <FluentRadio Value="@(false)">No</FluentRadio>
+        </FluentRadioGroup>
+        <FluentRadioGroup TValue="bool"
+                          Label="Precise margin"
+                          @bind-Value:get="Settings.PreciseMargin"
+                          @bind-Value:set="@(value => SetPreciseMargin(value))">
+            <FluentRadio Value="@(true)">Yes</FluentRadio>
+            <FluentRadio Value="@(false)">No</FluentRadio>
+        </FluentRadioGroup>
+
+        <FluentRadioGroup TValue="bool"
+                          Label="Margin input"
+                          @bind-Value:get="Settings.MarginSlider"
+                          @bind-Value:set="@(value => Settings.SetMarginSlider(value))">
+            <FluentRadio Value="@(true)">Slider (imprecise only)</FluentRadio>
+            <FluentRadio Value="@(false)">Input</FluentRadio>
+        </FluentRadioGroup>
+    </FluentStack>
+</div>

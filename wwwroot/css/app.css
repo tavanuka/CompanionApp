@@ -57,6 +57,13 @@ article {
     }
 }
 
+fluent-slider {
+    margin-bottom: 16px;
+}
+
+.full-width {
+    width: 100%;
+}
 
 #blazor-error-ui {
     background: lightyellow;
