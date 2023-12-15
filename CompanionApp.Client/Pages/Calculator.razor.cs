@@ -17,6 +17,7 @@ public partial class Calculator
     public void Dispose()
     {
         Settings.OnStateChange -= StateHasChanged;
+        GC.SuppressFinalize(this);
     }
 
     protected override void OnInitialized()

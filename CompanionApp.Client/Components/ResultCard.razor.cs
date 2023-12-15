@@ -18,6 +18,7 @@ public partial class ResultCard
     {
         State.OnStateChange -= StateHasChanged;
         Settings.OnStateChange -= StateHasChanged;
+        GC.SuppressFinalize(this);
     }
 
     protected override void OnInitialized()
