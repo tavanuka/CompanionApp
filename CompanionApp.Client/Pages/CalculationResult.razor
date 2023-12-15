@@ -18,13 +18,13 @@
                     @switch (Settings.PreciseMeasurement)
                     {
                         case true:
-                            <TemplateColumn Title="Distance">
-                                @context.Distance.ToString(NumFormat) @Settings.MeasurementType.GetDescription()
+                            <TemplateColumn TGridItem="Hole" Title="Distance">
+                                @($"{context.Distance:0.##} {Settings.MeasurementType.GetDescription()}")
                             </TemplateColumn>
                             break;
                         case false:
-                            <TemplateColumn Title="Rounded distance">
-                                @context.RoundedDistance @Settings.MeasurementType.GetDescription()
+                            <TemplateColumn TGridItem="Hole" Title="Rounded distance">
+                                @($"{context.RoundedDistance:####} {Settings.MeasurementType.GetDescription()}")
                             </TemplateColumn>
                             break;
                     }
@@ -35,7 +35,6 @@
 </div>
 
 @code {
-    private const string NumFormat = "0.##";
 
     protected override void OnInitialized()
     {
