@@ -1,3 +1,4 @@
+using CompanionApp.Client.Enums;
 using CompanionApp.Client.Models;
 
 namespace CompanionApp.Client.Services;
@@ -23,8 +24,10 @@ public interface IHoleCalculationService
     /// <param name="holeCount">Number of holes on the axis.</param>
     /// <param name="marginLeft">Distance between start and the first hole.</param>
     /// <param name="marginRight">Distance between the end and the last hole.</param>
+    /// <param name="offset">The direction of the offset to calculate.</param>
     /// <returns>The offset to subtract from length.</returns>
-    int CalculateOffset(double length, int holeCount, double marginLeft = 0D, double marginRight = 0D);
+    int CalculateOffset(double length, int holeCount, double marginLeft = 0D, double marginRight = 0D,
+        Offset offset = Offset.Negative);
 
     /// <summary>
     ///     Generates a list of holes that describes where should they be placed along the given length.
@@ -35,34 +38,43 @@ public interface IHoleCalculationService
     /// <param name="offset">Optional. Starting offset to be added between start and the first hole.</param>
     /// <param name="marginLeft">Optional. Distance between start and the first hole.</param>
     /// <returns>Returns a list of type <see cref="Hole" /></returns>
-    IEnumerable<Hole> GenerateHoles(decimal roundedDistance, decimal distance, int holeCount, int offset = 0,
-        int marginLeft = 0);
+    IEnumerable<Hole> GenerateHoles(decimal roundedInterval, decimal interval, int holeCount, int offset = 0,
+        double marginLeft = 0D);
 }
 
 public class HoleCalculationService : IHoleCalculationService
 {
-    public int CalculateOffset(double length, int holeCount, double marginLeft = 0D, double marginRight = 0D)
+    public int CalculateOffset(double length, int holeCount, double marginLeft = 0D,
+        double marginRight = 0D, Offset offset = Offset.Negative)
     {
         // Validate number of points
         if (holeCount < 1)
             return 0;
 
-        var offset = 0;
-        decimal gap;
-
-        do
+        decimal interval;
+        var intervalList = new List<decimal>();
+        
+        for (var i = 0; i < holeCount; i++)
         {
-            gap = marginLeft == 0 && marginRight == 0
-                ? CalculateDistance(length - offset, holeCount)
-                : CalculateDistance(length - offset, holeCount, marginLeft, marginRight);
+            interval = offset switch
+            {
+                Offset.Positive => marginLeft == 0 && marginRight == 0
+                    ? CalculateDistance(length + i, holeCount)
+                    : CalculateDistance(length + i, holeCount, marginLeft, marginRight),
+                Offset.Negative => marginLeft == 0 && marginRight == 0
+                    ? CalculateDistance(length - i, holeCount)
+                    : CalculateDistance(length - i, holeCount, marginLeft, marginRight),
+                _ => throw new ArgumentOutOfRangeException(nameof(offset), offset, null)
+            };
 
-            if (gap % 1 != 0) offset++;
-        } while (gap % 1 != 0);
+            interval = Math.Round(interval, 1);
+            intervalList.Add(interval);
+        }
 
-        return offset;
+        // Determines which rounded number is of modulo 1 and returns the index of this number as offset.  
+        return intervalList.IndexOf(intervalList.FirstOrDefault(x => x % 1 == 0));
     }
-
-
+    
     public decimal CalculateDistance(double length, int holeCount, double marginLeft = 0,
         double marginRight = 0)
     {

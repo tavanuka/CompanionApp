@@ -39,15 +39,20 @@ public partial class Calculator
             State.NumberOfHoles,
             marginLeft: Settings.PreciseMargin ? State.MarginLeft : State.Margin,
             marginRight: Settings.PreciseMargin ? State.MarginRight : State.Margin);
-        
-        State.SetOffset(offset);
+
+        var posOffset = Service.CalculateOffset(State.Length,
+            State.NumberOfHoles,
+            marginLeft: Settings.PreciseMargin ? State.MarginLeft : State.Margin,
+            marginRight: Settings.PreciseMargin ? State.MarginRight : State.Margin,
+            offset: Offset.Positive);
+        State.SetOffset(Math.Min(offset, posOffset));
 
         var roundedInterval = Service.CalculateDistance(
-            offset,
+            offset < posOffset ? State.Length - offset : State.Length + posOffset,
             State.NumberOfHoles,
             Settings.PreciseMargin ? State.MarginLeft : State.Margin,
             Settings.PreciseMargin ? State.MarginRight : State.Margin);
-        State.SetRoundedInterval(roundedInterval);
+        State.SetRoundedInterval(Math.Round(roundedInterval, 1));
 
         var interval = Service.CalculateDistance(State.Length,
             State.NumberOfHoles, Settings.PreciseMargin ? State.MarginLeft : State.Margin,
