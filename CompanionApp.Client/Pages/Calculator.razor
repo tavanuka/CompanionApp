@@ -5,10 +5,10 @@
 <PageTitle>Calculator</PageTitle>
 <div>
     <FluentStack Orientation="Orientation.Vertical">
-        <FluentNumberField TValue="double" @bind-Value:get="State.Dimension" @bind-Value:set="State.SetDimension"
+        <FluentNumberField TValue="double" @bind-Value:get="State.Length" @bind-Value:set="State.SetLength"
                            Immediate="true"
                            HideStep="true">
-            Dimension
+            Length
             <FluentLabel slot="end" Typo="Typography.Body">@Settings.MeasurementType.GetDescription()</FluentLabel>
         </FluentNumberField>
         <MarginInput/>

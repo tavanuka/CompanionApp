@@ -23,16 +23,16 @@ public partial class CalculationSettings
         switch (Settings.MeasurementType)
         {
             case MeasurementType.Millimeter:
-                var mm = State.DistanceBetweenHoles.ShiftDecimalPoint(-1);
-                var mmRound = State.RoundedDistanceBetweenHoles.ShiftDecimalPoint(-1);
-                State.SetDistanceBetweenHoles(mm);
-                State.SetRoundedDistanceBetweenHoles(mmRound);
+                var mm = State.Interval.ShiftDecimalPoint(-1);
+                var mmRound = State.RoundedInterval.ShiftDecimalPoint(-1);
+                State.SetInterval(mm);
+                State.SetRoundedInterval(mmRound);
                 break;
             case MeasurementType.Centimeter:
-                var cm = State.DistanceBetweenHoles.ShiftDecimalPoint(1);
-                var cmRound = State.RoundedDistanceBetweenHoles.ShiftDecimalPoint(1);
-                State.SetDistanceBetweenHoles(cm);
-                State.SetRoundedDistanceBetweenHoles(cmRound);
+                var cm = State.Interval.ShiftDecimalPoint(1);
+                var cmRound = State.RoundedInterval.ShiftDecimalPoint(1);
+                State.SetInterval(cm);
+                State.SetRoundedInterval(cmRound);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

@@ -26,7 +26,7 @@
             </FluentNumberField>
             break;
         case false when Settings.PreciseMargin:
-            <FluentNumberField TValue="int" @bind-Value:get="State.MarginLeft" @bind-Value:set="@State.SetMarginLeft"
+            <FluentNumberField TValue="double" @bind-Value:get="State.MarginLeft" @bind-Value:set="@State.SetMarginLeft"
                                Immediate="true"
                                HideStep="true">
                 Left margin
@@ -35,7 +35,7 @@
             <FluentButton Appearance="Appearance.Lightweight" OnClick="@(() => State.SetLinkMargins(!State.LinkMargins))" Title="Link margins">
                 <FluentIcon Value="@LinkButtonIcon"></FluentIcon>
             </FluentButton>
-            <FluentNumberField TValue="int" @bind-Value:get="State.MarginRight" @bind-Value:set="@State.SetMarginRight"
+            <FluentNumberField TValue="double" @bind-Value:get="State.MarginRight" @bind-Value:set="@State.SetMarginRight"
                                HideStep="true"
                                Immediate="true"
                                Readonly="@State.LinkMargins">

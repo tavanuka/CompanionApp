@@ -19,12 +19,12 @@
                     {
                         case true:
                             <TemplateColumn TGridItem="Hole" Title="Distance">
-                                @($"{context.Distance:0.##} {Settings.MeasurementType.GetDescription()}")
+                                @($"{context.Interval:0.##} {Settings.MeasurementType.GetDescription()}")
                             </TemplateColumn>
                             break;
                         case false:
                             <TemplateColumn TGridItem="Hole" Title="Rounded distance">
-                                @($"{context.RoundedDistance:####} {Settings.MeasurementType.GetDescription()}")
+                                @($"{context.RoundedInterval:####} {Settings.MeasurementType.GetDescription()}")
                             </TemplateColumn>
                             break;
                     }

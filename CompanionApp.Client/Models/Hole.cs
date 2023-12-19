@@ -1,3 +1,3 @@
 namespace CompanionApp.Client.Models;
 
-public record Hole(int Index, decimal Distance, decimal RoundedDistance);
+public record Hole(int Index, decimal Interval, decimal RoundedInterval);

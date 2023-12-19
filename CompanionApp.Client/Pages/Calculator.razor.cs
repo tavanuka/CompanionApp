@@ -1,4 +1,5 @@
 using CompanionApp.Client.Components;
+using CompanionApp.Client.Enums;
 using CompanionApp.Client.Services;
 using CompanionApp.Client.States;
 using Microsoft.AspNetCore.Components;
@@ -28,32 +29,34 @@ public partial class Calculator
 
     private void Calculate()
     {
-        if (State.Dimension <= 0D)
+        if (State.Length <= 0D)
         {
             ToastService.ShowWarning("Please enter a length greater than 0.");
             return;
         }
+
+        var offset = Service.CalculateOffset(State.Length,
+            State.NumberOfHoles,
+            marginLeft: Settings.PreciseMargin ? State.MarginLeft : State.Margin,
+            marginRight: Settings.PreciseMargin ? State.MarginRight : State.Margin);
         
-        var offset = Service.CalculateOffset(State.Dimension,
+        State.SetOffset(offset);
+
+        var roundedInterval = Service.CalculateDistance(
+            offset,
             State.NumberOfHoles,
             Settings.PreciseMargin ? State.MarginLeft : State.Margin,
             Settings.PreciseMargin ? State.MarginRight : State.Margin);
-        State.SetOffset(offset);
+        State.SetRoundedInterval(roundedInterval);
 
-        var roundedDistance = Service.CalculateDistance(
-            State.Dimension - offset, State.NumberOfHoles,
-            Settings.PreciseMargin ? State.MarginLeft : State.Margin,
-            Settings.PreciseMargin ? State.MarginRight : State.Margin);
-        State.SetRoundedDistanceBetweenHoles(roundedDistance);
-
-        var distance = Service.CalculateDistance(State.Dimension,
+        var interval = Service.CalculateDistance(State.Length,
             State.NumberOfHoles, Settings.PreciseMargin ? State.MarginLeft : State.Margin,
             Settings.PreciseMargin ? State.MarginRight : State.Margin);
-        State.SetDistanceBetweenHoles(distance);
+        State.SetInterval(interval);
 
-        var holes = Service.GenerateHoles(State.RoundedDistanceBetweenHoles, State.DistanceBetweenHoles,
+        var holes = Service.GenerateHoles(State.RoundedInterval, State.Interval,
             State.NumberOfHoles, State.Offset, Settings.PreciseMargin ? State.MarginLeft : State.Margin);
-        State.SetHoleDistances(holes);
+        State.SetHoles(holes);
 
         State.SetShowResultCard(true);
     }

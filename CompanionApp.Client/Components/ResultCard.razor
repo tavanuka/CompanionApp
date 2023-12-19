@@ -6,11 +6,11 @@
             @switch (Settings.PreciseMeasurement)
             {
                 case false:
-                    <h3>Result: @($"{State.RoundedDistanceBetweenHoles} {Settings.MeasurementType.GetDescription()}")</h3>
+                    <h3>Result: @($"{State.RoundedInterval:####} {Settings.MeasurementType.GetDescription()}")</h3>
                     <h5>Starting offset: @($"{State.Offset} {Settings.MeasurementType.GetDescription()}")</h5>
                     break;
                 case true:
-                    <h2>Result: @($"{State.DistanceBetweenHoles:0.##} {Settings.MeasurementType.GetDescription()}")</h2>
+                    <h2>Result: @($"{State.Interval:0.##} {Settings.MeasurementType.GetDescription()}")</h2>
                     break;
             }
         </div>

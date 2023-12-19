@@ -29,8 +29,8 @@ public interface IHoleCalculationService
     /// <summary>
     ///     Generates a list of holes that describes where should they be placed along the given length.
     /// </summary>
-    /// <param name="roundedDistance">Rounded distance between given number of holes.</param>
-    /// <param name="distance">Distance between given number of holes.</param>
+    /// <param name="roundedInterval">Rounded distance between given number of holes.</param>
+    /// <param name="interval">Distance between given number of holes.</param>
     /// <param name="holeCount">Number of holes on the axis.</param>
     /// <param name="offset">Optional. Starting offset to be added between start and the first hole.</param>
     /// <param name="marginLeft">Optional. Distance between start and the first hole.</param>
@@ -85,31 +85,31 @@ public class HoleCalculationService : IHoleCalculationService
         };
     }
 
-    public IEnumerable<Hole> GenerateHoles(decimal roundedDistance, decimal distance, int holeCount, int offset = 0,
-        int marginLeft = 0)
+    public IEnumerable<Hole> GenerateHoles(decimal roundedInterval, decimal interval, int holeCount, int offset = 0,
+        double marginLeft = 0D)
     {
-        var listOfHoles = new List<Hole>();
-        decimal holeDistance;
-        decimal roundedHoleDistance;
+        var holeList = new List<Hole>();
+        decimal holeInterval;
+        decimal roundedHoleInterval;
 
         if (marginLeft is not 0)
         {
-            holeDistance = marginLeft;
-            roundedHoleDistance = marginLeft + offset;
+            holeInterval = (decimal)marginLeft;
+            roundedHoleInterval = (decimal)(marginLeft + offset);
         }
         else
         {
-            holeDistance = distance;
-            roundedHoleDistance = roundedDistance + offset;
+            holeInterval = interval;
+            roundedHoleInterval = roundedInterval + offset;
         }
 
         for (var i = 1; i <= holeCount; i++)
         {
-            listOfHoles.Add(new Hole(i, holeDistance, roundedHoleDistance));
-            holeDistance += distance;
-            roundedHoleDistance += roundedDistance;
+            holeList.Add(new Hole(i, holeInterval, roundedHoleInterval));
+            holeInterval += interval;
+            roundedHoleInterval += roundedInterval;
         }
 
-        return listOfHoles;
+        return holeList;
     }
 }

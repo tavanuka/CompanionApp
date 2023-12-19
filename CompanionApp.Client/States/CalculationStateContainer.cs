@@ -4,33 +4,32 @@ namespace CompanionApp.Client.States;
 
 public class CalculationStateContainer : StateObject
 {
-
     public bool ShowResultCard { get; private set; }
-    
+
     public int NumberOfHoles { get; private set; } = 1;
 
-    public double Dimension { get; private set; }
+    public double Length { get; private set; }
 
     public int Margin { get; private set; }
 
-    public int MarginLeft { get; private set; }
+    public double MarginLeft { get; private set; }
 
-    public int MarginRight { get; private set; }
+    public double MarginRight { get; private set; }
 
     public int Offset { get; private set; }
 
-    public decimal DistanceBetweenHoles { get; private set; }
+    public decimal Interval { get; private set; }
 
-    public decimal RoundedDistanceBetweenHoles { get; private set; }
+    public decimal RoundedInterval { get; private set; }
 
     public bool LinkMargins { get; private set; } = true;
 
-    public double SpacingFactor { get; private set; }
+    public double IntervalFactor { get; private set; }
 
-    public double SpacingDisplay { get; private set; }
+    public double DisplayInterval { get; private set; }
 
     public IQueryable<Hole>? Holes { get; private set; }
-    
+
     public void SetShowResultCard(bool value)
     {
         ShowResultCard = value;
@@ -43,9 +42,9 @@ public class CalculationStateContainer : StateObject
         NotifyStateChanged();
     }
 
-    public void SetDimension(double value)
+    public void SetLength(double value)
     {
-        Dimension = value;
+        Length = value;
         NotifyStateChanged();
     }
 
@@ -56,7 +55,7 @@ public class CalculationStateContainer : StateObject
         NotifyStateChanged();
     }
 
-    public void SetMarginLeft(int value)
+    public void SetMarginLeft(double value)
     {
         MarginLeft = value;
         if (LinkMargins)
@@ -64,7 +63,7 @@ public class CalculationStateContainer : StateObject
         NotifyStateChanged();
     }
 
-    public void SetMarginRight(int value)
+    public void SetMarginRight(double value)
     {
         MarginRight = value;
         NotifyStateChanged();
@@ -76,15 +75,15 @@ public class CalculationStateContainer : StateObject
         NotifyStateChanged();
     }
 
-    public void SetDistanceBetweenHoles(decimal value)
+    public void SetInterval(decimal value)
     {
-        DistanceBetweenHoles = value;
+        Interval = value;
         NotifyStateChanged();
     }
 
-    public void SetRoundedDistanceBetweenHoles(decimal value)
+    public void SetRoundedInterval(decimal value)
     {
-        RoundedDistanceBetweenHoles = value;
+        RoundedInterval = value;
         NotifyStateChanged();
     }
 
@@ -94,19 +93,19 @@ public class CalculationStateContainer : StateObject
         NotifyStateChanged();
     }
 
-    public void SetSpacingFactor(double value)
+    public void SetIntervalFactor(double value)
     {
-        SpacingFactor = value;
+        IntervalFactor = value;
         NotifyStateChanged();
     }
 
-    public void SetSpacingDisplay(double value)
+    public void SetDisplayInterval(double value)
     {
-        SpacingDisplay = value;
+        DisplayInterval = value;
         NotifyStateChanged();
     }
 
-    public void SetHoleDistances(IEnumerable<Hole> value)
+    public void SetHoles(IEnumerable<Hole> value)
     {
         Holes = value.AsQueryable();
         NotifyStateChanged();
